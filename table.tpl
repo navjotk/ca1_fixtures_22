@@ -52,7 +52,7 @@
         <tbody>
             % for i, row in enumerate(rows):
             <tr>
-                <th>${1}.</th>
+                <th>${i}.</th>
                 % for column in columns:
                 <th>${row[column]}</th>
                 % endfor
