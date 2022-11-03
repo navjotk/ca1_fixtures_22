@@ -19,4 +19,4 @@ conda activate codegrade
 python ${artifacts_path}/multithreadrunner.py --basedir ${submission_path} --max-threads 40 --executable op1 --executable op2 --identifier ${submission_id} --results-file results.csv
 % endfor
 
-python ${artifacts_path}/cleanup.py --template-file table.tpl --results-file results.csv --output-file table.html
+python ${artifacts_path}/cleanup.py --template-file ${artifacts_path}/table.tpl --results-file results.csv --output-file table.html
