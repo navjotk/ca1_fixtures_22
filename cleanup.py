@@ -58,8 +58,9 @@ def publish_file(output_file, git_repo):
 @click.option('--template-file', required=True, help='The template file')
 @click.option('--results-file', required=True, help='The results file')
 @click.option('--output-file', required=True, help='The template file')
-def run(template_file, results_file, output_file, main_column="avg_par_eff", freq=6,
-        git_repo="https://navjotk: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@github.com/SciCoLab/ca2-leaderboard.git"):
+@click.option('--freq', required=True, help='The update frequency')
+@click.option('--git-repo', required=True, help='The update frequency')
+def run(template_file, results_file, output_file, main_column="avg_par_eff", freq, git_repo):
     results = read_results(results_file)
     output_file = generate_leaderboard(template_file, results, main_column, output_file, freq)
     publish_file(output_file, git_repo)
