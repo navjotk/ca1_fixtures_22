@@ -15,8 +15,8 @@ module load compilers/intel/2019u5
 
 conda activate codegrade
 
-% for submission in submissions:
-python ${artifacts_path}/multithreadrunner.py ${submission}
+% for submission_id, submission_path in submissions:
+python ${artifacts_path}/multithreadrunner.py --basedir ${submission_path} --max-threads 40 --executable op1 --executable op2 --identifier ${submission_id} --results-file results.csv
 % endfor
 
-python ${artifacts_path}/cleanup.py $SLURM_JOB_ID
+python ${artifacts_path}/cleanup.py --template-file table.tpl --results-file results.csv --output-file table.html
