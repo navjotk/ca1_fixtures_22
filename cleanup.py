@@ -60,7 +60,7 @@ def publish_file(output_file, git_repo):
 @click.option('--output-file', required=True, help='The template file')
 @click.option('--freq', required=True, help='The update frequency')
 @click.option('--git-repo', required=True, help='The update frequency')
-def run(template_file, results_file, output_file, main_column="avg_par_eff", freq, git_repo):
+def run(template_file, results_file, output_file, freq, git_repo, main_column="avg_par_eff"):
     results = read_results(results_file)
     output_file = generate_leaderboard(template_file, results, main_column, output_file, freq)
     publish_file(output_file, git_repo)
