@@ -16,7 +16,7 @@ module load compilers/intel/2019u5
 conda activate codegrade
 
 % for submission in submissions:
-python multithreadrunner.py ${submission}
+python ${artifacts_path}/multithreadrunner.py ${submission}
 % endfor
 
-python cleanup.py
+python ${artifacts_path}/cleanup.py $SLURM_JOB_ID
