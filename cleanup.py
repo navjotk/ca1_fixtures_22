@@ -54,17 +54,22 @@ def publish_file(output_file, git_repo):
     run_command("git push origin main", cwd=publish_dir)
 
 
+def cleanup(*args):
+    for f in args:
+        os.remove(f)
+
+
 @click.command()
 @click.option('--template-file', required=True, help='The template file')
 @click.option('--results-file', required=True, help='The results file')
-@click.option('--output-file', required=True, help='The template file')
+@click.option('--output-file', required=True, help='The output file for the leaderboard')
 @click.option('--freq', required=True, type=int, help='The update frequency')
 @click.option('--git-repo', required=True, help='The update frequency')
 def run(template_file, results_file, output_file, freq, git_repo, main_column="avg_par_eff"):
     results = read_results(results_file)
     output_file = generate_leaderboard(template_file, results, main_column, output_file, freq)
     publish_file(output_file, git_repo)
-
+    cleanup(results_file, output_file)
 
 if __name__=="__main__":
     run()

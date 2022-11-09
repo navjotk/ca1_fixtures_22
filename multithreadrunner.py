@@ -4,17 +4,29 @@ import subprocess
 import portalocker
 import csv
 import os
+import sys
 from contexttimer import Timer
 
 
-def run_executable(executable, num_threads, num_runs=3):
-    command = "OMP_NUM_THREADS=%d KMP_AFFINITY=true %s" % (num_threads, executable)
+def run_executable(executable, args, num_threads, num_runs=3):
+    command = executable
+    
+    if args is not None:
+        command += " " + (" ").join(list(args))
+
+    print("Command: %s" % command)
+
     c = shlex.split(command)
+
+    env = {'OMP_NUM_THREADS': num_threads, 'KMP_AFFINITY': 'true'}
+    
     timings = []
     for i in range(num_runs):
         with Timer() as t:
-            p = subprocess.Popen(c, shell=True)
-            p.wait()
+            p = subprocess.run(c, capture_output=True, text=True)
+        if(p.returncode):
+            print(p.stdout)
+            sys.exit(0)
         timings.append(t.elapsed)
     
     return min(timings)
@@ -58,7 +70,7 @@ def write_results(all_data, identifier, results_file):
 
 
 @click.command()
-@click.option('--basedir', default="", help='Directory to find executables')
+@click.option('--basedir', default=None, help='Directory to find executables')
 @click.option('--max-threads', default=40, help='Maximum number of threads')
 @click.option('--executable', multiple=True, help="Name of executable to run")
 @click.option('--identifier', required=True, help='Identify this submission')
@@ -72,10 +84,20 @@ def run(basedir, max_threads, executable, identifier, results_file):
     
     all_data = []
     for e in executable:
+        if e.find(",")>-1:
+            e_full = e.split(",")
+            args = e_full[1:]
+            e = e_full[0]
+        else:
+            args = None
+
+        if basedir is None:
+            basedir = "."
+
         e_full_path = "%s/%s" % (basedir, e)
         runtimes = []
         for c in thread_nums:
-            runtime = run_executable(e_full_path, c)
+            runtime = run_executable(e_full_path, args, c)
             runtimes.append((c, runtime))
         all_data.append((e, runtimes))
     
