@@ -98,6 +98,9 @@ def run(basedir, max_threads, executable, identifier, results_file):
         runtimes = []
         for c in thread_nums:
             runtime = run_executable(e_full_path, args, c)
+            if runtime is None:
+                print("Provided command is erroring out. Timings are meaningless. Exiting...")
+                sys.exit(-1)
             runtimes.append((c, runtime))
         all_data.append((e, runtimes))
     
