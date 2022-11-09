@@ -1,0 +1,9 @@
+https://www.dropbox.com/s/2fnjfz40gg5fori/input_2_5_5_simple.dat?dl=1 input_2_5_5_simple.dat
+https://www.dropbox.com/s/ne5f95w6d51ngdi/input_64_512_960.dat?dl=1 input_64_512_960.dat
+https://www.dropbox.com/s/62jvdf3hal1kr5s/kernel_3_simple.dat?dl=1 kernel_3_simple.dat
+https://www.dropbox.com/s/6sy11rd2i1xdhd0/kernel_4.dat?dl=1 kernel_4.dat
+https://www.dropbox.com/s/qpf98ucvrlzf3vo/kernel_5.dat?dl=1 kernel_5.dat
+https://www.dropbox.com/s/68h4dvnkmt6qu78/output_2_5_5x3.dat?dl=1 output_2_5_5x3.dat
+https://www.dropbox.com/s/70qq6dovtw6fq40/output_2_5_5x4.dat?dl=1 output_2_5_5x4.dat
+https://www.dropbox.com/s/sx78bc8ovf68vpi/output_2_5_5x5.dat?dl=1 output_2_5_5x5.dat
+https://www.dropbox.com/s/3qi0a0b2lzk8mzi/output_64_512_960x5.dat?dl=1 output_64_512_960x5.dat

@@ -46,7 +46,7 @@ def publish_file(output_file, git_repo):
     if not os.path.exists(publish_dir):
         run_command("git clone %s" % git_repo)
     else:
-        run_command("git pull origin main")
+        run_command("git pull origin main", cwd=publish_dir)
     run_command("git checkout main", cwd=publish_dir)
     shutil.move(output_file, "%s/%s" % (publish_dir, output_file))
     run_command("git add %s" % output_file, cwd=publish_dir)

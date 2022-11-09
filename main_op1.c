@@ -48,7 +48,7 @@ bool test_case1() {
         if(output[i]!=expected_output[i]) {
             match = false;
             printf("At position %d, expected %f but found %f. \n", i, expected_output[i], output[i]);
-            //break;
+            break;
         }
     }
     free(input);
