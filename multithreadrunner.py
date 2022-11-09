@@ -26,7 +26,7 @@ def run_executable(executable, args, num_threads, num_runs=3):
             p = subprocess.run(c, capture_output=True, text=True)
         if(p.returncode):
             print(p.stdout)
-            sys.exit(0)
+            return None
         timings.append(t.elapsed)
     
     return min(timings)

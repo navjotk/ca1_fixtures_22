@@ -28,7 +28,7 @@ def generate_leaderboard(template_file, results, main_column, output_file, freq)
     leaderboard_template = Template(filename=template_file)
     time = datetime.datetime.now()
     timedelta = datetime.timedelta(hours=freq)
-    results = sorted(results, key=lambda d: d[main_column])
+    results = sorted(results, reverse=True, key=lambda d: d[main_column])
     columns = list(results[0].keys())
     # Make main column the second column (first after ID)
     columns.insert(1, columns.pop(columns.index(main_column)))
@@ -69,7 +69,7 @@ def run(template_file, results_file, output_file, freq, git_repo, main_column="a
     results = read_results(results_file)
     output_file = generate_leaderboard(template_file, results, main_column, output_file, freq)
     publish_file(output_file, git_repo)
-    cleanup(results_file, output_file)
+    cleanup(results_file, publish_dir + "/" + output_file)
 
 if __name__=="__main__":
     run()
