@@ -15,7 +15,7 @@ module load compilers/intel/2019u5
 
 conda activate codegrade
 
-python filedownloader.py --file-list input_files_list.txt
+python ${artifacts_path}/filedownloader.py --file-list ${artifacts_path}/input_files_list.txt
 
 % for submission_id, submission_path in submissions:
 python ${artifacts_path}/multithreadrunner.py --basedir ${submission_path} --max-threads 40 --executable "op1,input_64_512_960.dat,kernel_5.dat,output_64_512_960x5.dat" --executable op2 --identifier ${submission_id} --results-file results.csv
