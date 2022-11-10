@@ -7,3 +7,6 @@ https://www.dropbox.com/s/68h4dvnkmt6qu78/output_2_5_5x3.dat?dl=1 output_2_5_5x3
 https://www.dropbox.com/s/70qq6dovtw6fq40/output_2_5_5x4.dat?dl=1 output_2_5_5x4.dat
 https://www.dropbox.com/s/sx78bc8ovf68vpi/output_2_5_5x5.dat?dl=1 output_2_5_5x5.dat
 https://www.dropbox.com/s/3qi0a0b2lzk8mzi/output_64_512_960x5.dat?dl=1 output_64_512_960x5.dat
+https://www.dropbox.com/s/0uforhj5q1c0qbv/a.dat?dl=1 a.dat
+https://www.dropbox.com/s/55a2ryzlenz26c1/b.dat?dl=1 b.dat
+https://www.dropbox.com/s/dnkjes08s7nk07o/c.dat?dl=1 c.dat
