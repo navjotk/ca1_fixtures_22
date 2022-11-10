@@ -69,7 +69,7 @@ def run(template_file, results_file, output_file, freq, git_repo, main_column="a
     results = read_results(results_file)
     output_file = generate_leaderboard(template_file, results, main_column, output_file, freq)
     publish_file(output_file, git_repo)
-    cleanup(results_file, publish_dir + "/" + output_file)
+    cleanup(results_file)
 
 if __name__=="__main__":
     run()

@@ -18,6 +18,11 @@ long int product(int *array, int n) {
 int *read_dims(char *filename) {
     FILE *file = fopen(filename,"r");
     
+    if(file == NULL) {
+        printf("Unable to open file: %s", filename);
+        return -1;
+    }
+
     char firstline[500];
     fgets(firstline, 500, file);
     
@@ -47,6 +52,12 @@ int *read_dims(char *filename) {
 
 float * read_array(char *filename, int *dims, int num_dims) {
     FILE *file = fopen(filename,"r");
+
+    if(file == NULL) {
+        printf("Unable to open file: %s", filename);
+        return -1;
+    }
+
     char firstline[500];
     fgets(firstline, 500, file);
 
@@ -85,14 +96,28 @@ int main(int argc, char *argv[]) {
     strcpy(output_filename, argv[3]);
 
     int *input_dims_original = read_dims(input_filename);
+    
+    if(input_dims_original == -1) {
+        return -1;
+    }
+
     int input_num_dims = input_dims_original[0];
     int *input_dims = input_dims_original+1;
     float *input_data = read_array(input_filename, input_dims, input_num_dims);
+    if(input_data == -1) {
+        return -1;
+    }
     
     int *kernel_dims_original = read_dims(kernel_filename);
+    if(kernel_dims_original == -1) {
+        return -1;
+    }
     int kernel_num_dims = kernel_dims_original[0];
     int *kernel_dims = kernel_dims_original+1;
     float *kernel_data = read_array(kernel_filename, kernel_dims, kernel_num_dims);
+    if(kernel_data == -1) {
+        return -1;
+    }
 
     long int total_input_size = product(input_dims, input_num_dims);
     
@@ -102,9 +127,16 @@ int main(int argc, char *argv[]) {
 
     if(compareOutput) {
         int *output_dims_original = read_dims(output_filename);
+        if(kernel_dims_original == -1) {
+            return -1;
+        }
         int output_num_dims = output_dims_original[0];
         int *output_dims = output_dims_original+1;
         float *expected_output = read_array(output_filename, output_dims, output_num_dims);
+
+        if(kernel_data == -1) {
+            return -1;
+        }
 
         for(int i=0;i<total_input_size; i++) {
             if(fabs(output[i]-expected_output[i])>0.000001) {
@@ -118,6 +150,11 @@ int main(int argc, char *argv[]) {
         free(expected_output);
     } else {
         FILE *file = fopen(output_filename,"w");
+
+        if(file == NULL) {
+            printf("Unable to open file: %s", output_filename);
+            return -1;
+        }
 
         if (file != NULL) {
             for(int i=0; i<input_num_dims; i++) {
