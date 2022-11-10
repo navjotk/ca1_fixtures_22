@@ -142,7 +142,7 @@ int main(int argc, char *argv[]) {
             if(fabs(output[i]-expected_output[i])>0.000001) {
                 match = false;
                 printf("At position %d, expected %f but found %f. \n", i, expected_output[i], output[i]);
-                //break;
+                break;
             }
         }
 
