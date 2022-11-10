@@ -20,7 +20,7 @@ int *read_dims(char *filename) {
     
     if(file == NULL) {
         printf("Unable to open file: %s", filename);
-        return -1;
+        return NULL;
     }
 
     char firstline[500];
@@ -55,7 +55,7 @@ float * read_array(char *filename, int *dims, int num_dims) {
 
     if(file == NULL) {
         printf("Unable to open file: %s", filename);
-        return -1;
+        return NULL;
     }
 
     char firstline[500];
@@ -97,25 +97,25 @@ int main(int argc, char *argv[]) {
 
     int *input_dims_original = read_dims(input_filename);
     
-    if(input_dims_original == -1) {
+    if(input_dims_original == NULL) {
         return -1;
     }
 
     int input_num_dims = input_dims_original[0];
     int *input_dims = input_dims_original+1;
     float *input_data = read_array(input_filename, input_dims, input_num_dims);
-    if(input_data == -1) {
+    if(input_data == NULL) {
         return -1;
     }
     
     int *kernel_dims_original = read_dims(kernel_filename);
-    if(kernel_dims_original == -1) {
+    if(kernel_dims_original == NULL) {
         return -1;
     }
     int kernel_num_dims = kernel_dims_original[0];
     int *kernel_dims = kernel_dims_original+1;
     float *kernel_data = read_array(kernel_filename, kernel_dims, kernel_num_dims);
-    if(kernel_data == -1) {
+    if(kernel_data == NULL) {
         return -1;
     }
 
@@ -127,14 +127,14 @@ int main(int argc, char *argv[]) {
 
     if(compareOutput) {
         int *output_dims_original = read_dims(output_filename);
-        if(kernel_dims_original == -1) {
+        if(output_dims_original == NULL) {
             return -1;
         }
         int output_num_dims = output_dims_original[0];
         int *output_dims = output_dims_original+1;
         float *expected_output = read_array(output_filename, output_dims, output_num_dims);
 
-        if(kernel_data == -1) {
+        if(expected_output == NULL) {
             return -1;
         }
 
