@@ -139,7 +139,7 @@ int main(int argc, char *argv[]) {
         }
 
         for(int i=0;i<total_input_size; i++) {
-            if(fabs(output[i]-expected_output[i])>0.000001) {
+            if(fabs(output[i]-expected_output[i])>0.01) {
                 match = false;
                 printf("At position %d, expected %f but found %f. \n", i, expected_output[i], output[i]);
                 break;
