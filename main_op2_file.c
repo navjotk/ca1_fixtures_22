@@ -149,7 +149,9 @@ int main(int argc, char *argv[]) {
             if((fabs(c[i]-expected_output[i])/c[i])>0.01) {
                 match = false;
                 printf("At position %d, expected %f but found %f. \n", i, expected_output[i], c[i]);
+                #ifndef _OPENMP
                 break;
+                #endif
             }
         }
 
