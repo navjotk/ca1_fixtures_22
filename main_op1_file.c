@@ -138,11 +138,16 @@ int main(int argc, char *argv[]) {
             return -1;
         }
 
+        #ifdef _OPENMP
+        #pragma omp parallel for reduction(&&:match) default(shared)
+        #endif
         for(int i=0;i<total_input_size; i++) {
             if(fabs(output[i]-expected_output[i])>0.01) {
                 match = false;
                 printf("At position %d, expected %f but found %f. \n", i, expected_output[i], output[i]);
+                #ifdef _OPENMP
                 break;
+                #endif
             }
         }
 

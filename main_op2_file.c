@@ -142,6 +142,9 @@ int main(int argc, char *argv[]) {
             return -1;
         }
 
+        #ifdef _OPENMP
+        #pragma omp parallel for reduction(&&:match) default(shared)
+        #endif
         for(int i=0;i<output_size; i++) {
             if((fabs(c[i]-expected_output[i])/c[i])>0.01) {
                 match = false;
