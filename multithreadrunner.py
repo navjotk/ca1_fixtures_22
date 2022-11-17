@@ -6,6 +6,7 @@ import csv
 import os
 import sys
 from contexttimer import Timer
+import portalocker
 
 
 def run_executable(executable, args, num_threads, num_runs=1):
@@ -36,7 +37,10 @@ def run_executable(executable, args, num_threads, num_runs=1):
 def get_results_row(all_data, identifier, precision=4):
     row = {'id': identifier}
     efficiencies = []
+    print(all_data)
     for e, runtimes in all_data:
+        print("*")
+        print(runtimes)
         single_thread_time = runtimes[0][1]
         for numthreads, runtime in runtimes:
             key = "%s_%d" % (e, numthreads)
@@ -59,7 +63,7 @@ def write_results(all_data, identifier, results_file):
                 existing_results = list(reader)
         
         existing_results = [x for x in existing_results if x['id']!=identifier]
-        print(existing_results)
+
         newrow = get_results_row(all_data, identifier)
         
         existing_results.append(newrow)
@@ -84,7 +88,7 @@ def run(basedir, max_threads, executable, identifier, results_file):
     while threadnum < max_threads:
         thread_nums.append(threadnum)
         threadnum *= 2
-    thread_nums = reversed(thread_nums)
+    thread_nums = list(reversed(thread_nums))
     all_data = []
     for e in executable:
         if e.find(",")>-1:

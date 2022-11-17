@@ -7,6 +7,7 @@ import shlex
 from time import time
 import subprocess
 from mako.template import Template
+import portalocker
 
 
 def read_results(results_file):
