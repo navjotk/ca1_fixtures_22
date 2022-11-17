@@ -4,6 +4,7 @@
 #include<string.h>
 #include <stdbool.h>
 #include<math.h>
+#include<omp.h>
 
 void op1(float*, int, int, float*, int, float*, int);
 
@@ -98,7 +99,8 @@ int main(int argc, char *argv[]) {
     int *input_dims_original = read_dims(input_filename);
     
     #ifdef _OPENMP
-    #pragma omp parallel {
+    #pragma omp parallel
+    {
         printf("Running on %d threads.", omp_get_num_threads());
     }
     #endif
