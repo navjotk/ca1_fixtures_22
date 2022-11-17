@@ -84,7 +84,7 @@ def run(basedir, max_threads, executable, identifier, results_file):
     while threadnum < max_threads:
         thread_nums.append(threadnum)
         threadnum *= 2
-    
+    thread_nums = reversed(thread_nums)
     all_data = []
     for e in executable:
         if e.find(",")>-1:
