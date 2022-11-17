@@ -43,8 +43,9 @@ def get_results_row(all_data, identifier, precision=4):
             row[key] = round(runtime, precision)
             speedup = single_thread_time/runtime
             efficiency = round(speedup/numthreads, precision)
-            efficiencies.append(efficiency)
-    row['avg_par_eff'] = sum(efficiencies)/len(efficiencies)
+            if numthreads > 1:
+                efficiencies.append(efficiency)
+    row['avg_par_eff'] = round(sum(efficiencies)/len(efficiencies), precision)
     return row
 
 def write_results(all_data, identifier, results_file):
