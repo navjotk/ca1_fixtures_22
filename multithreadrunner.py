@@ -47,11 +47,11 @@ def get_results_row(all_data, identifier, precision=4):
 
 def write_results(all_data, identifier, results_file):
     lock = portalocker.Lock(results_file)
-    exists = os.path.exists(results_file)
+
     existing_results = []
     with lock:
         if os.path.exists(results_file):
-            with open(results_file) as ifile:
+            with open(results_file, 'r') as ifile:
                 reader = csv.DictReader(ifile)
                 existing_results = list(reader)
         

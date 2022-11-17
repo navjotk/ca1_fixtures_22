@@ -11,7 +11,7 @@ from mako.template import Template
 
 def read_results(results_file):
     results = []
-    with open(results_file) as ifile:
+    with open(results_file, "r") as ifile:
         reader = csv.DictReader(ifile)
         results = list(reader)
     return results
