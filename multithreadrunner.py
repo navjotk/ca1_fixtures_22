@@ -8,7 +8,7 @@ import sys
 from contexttimer import Timer
 
 
-def run_executable(executable, args, num_threads, num_runs=3):
+def run_executable(executable, args, num_threads, num_runs=1):
     command = executable
     
     if args is not None:
