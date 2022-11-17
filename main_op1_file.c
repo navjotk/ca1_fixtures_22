@@ -97,6 +97,12 @@ int main(int argc, char *argv[]) {
 
     int *input_dims_original = read_dims(input_filename);
     
+    #ifdef _OPENMP
+    #pragma omp parallel {
+        printf("Running on %d threads.", omp_get_num_threads());
+    }
+    #endif
+
     if(input_dims_original == NULL) {
         return -1;
     }
@@ -142,6 +148,7 @@ int main(int argc, char *argv[]) {
         #pragma omp parallel for reduction(&&:match) default(shared)
         #endif
         for(int i=0;i<total_input_size; i++) {
+            if(!match) continue;
             if(fabs(output[i]-expected_output[i])>0.01) {
                 match = false;
                 printf("At position %d, expected %f but found %f. \n", i, expected_output[i], output[i]);
