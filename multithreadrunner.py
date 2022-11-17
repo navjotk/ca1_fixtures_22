@@ -14,18 +14,20 @@ def run_executable(executable, args, num_threads, num_runs=3):
     if args is not None:
         command += " " + (" ").join(list(args))
 
-    print("Command: %s" % command)
+    print("Command: %s (%d threads)" % (command, num_threads))
 
     c = shlex.split(command)
-
-    env = {'OMP_NUM_THREADS': num_threads, 'KMP_AFFINITY': 'true'}
+    my_env = os.environ.copy()
+    my_env['OMP_NUM_THREADS'] = str(num_threads)
+    my_env['KMP_AFFINITY'] = 'true'
+    
     
     timings = []
     for i in range(num_runs):
         with Timer() as t:
-            p = subprocess.run(c, capture_output=True, text=True)
+            p = subprocess.run(c, capture_output=True, text=True, env=my_env)
+        print(p.stdout)
         if(p.returncode):
-            print(p.stdout)
             return None
         timings.append(t.elapsed)
     
@@ -56,7 +58,7 @@ def write_results(all_data, identifier, results_file):
                 existing_results = list(reader)
         
         existing_results = [x for x in existing_results if x['id']!=identifier]
-
+        print(existing_results)
         newrow = get_results_row(all_data, identifier)
         
         existing_results.append(newrow)

@@ -101,7 +101,10 @@ int main(int argc, char *argv[]) {
     #ifdef _OPENMP
     #pragma omp parallel
     {
-        printf("Running on %d threads.", omp_get_num_threads());
+        #pragma omp master
+        {
+            printf("Running on %d threads.", omp_get_num_threads());
+        }
     }
     #endif
 
