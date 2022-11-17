@@ -34,9 +34,11 @@ def generate_leaderboard(template_file, results, main_column, output_file, freq)
     columns.insert(1, columns.pop(columns.index(main_column)))
     leaderboard_string = leaderboard_template.render(rows=results, columns=columns, time=str(time),
                                                      next_time=str(time+timedelta))
+    lock = portalocker.Lock(output_file)
 
-    with open(output_file, "w") as text_file:
-        text_file.write(leaderboard_string)
+    with lock:
+        with open(output_file, "w") as text_file:
+            text_file.write(leaderboard_string)
 
     return output_file
 
