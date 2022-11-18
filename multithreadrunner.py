@@ -50,6 +50,7 @@ def get_results_row(all_data, identifier, precision=3):
             efficiency = round(speedup/numthreads, precision)
             if numthreads > 1:
                 efficiencies.append(efficiency)
+    print(efficiencies)
     row['avg_par_eff'] = round(sum(efficiencies)/len(efficiencies), precision)
     return row
 
