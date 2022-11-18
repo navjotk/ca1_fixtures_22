@@ -20,7 +20,7 @@ def run_executable(executable, args, num_threads, num_runs=1):
     c = shlex.split(command)
     my_env = os.environ.copy()
     my_env['OMP_NUM_THREADS'] = str(num_threads)
-    my_env['KMP_AFFINITY'] = 'true'
+    my_env['KMP_AFFINITY'] = 'scatter'
     
     
     timings = []
