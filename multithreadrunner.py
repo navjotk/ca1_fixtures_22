@@ -27,8 +27,9 @@ def run_executable(executable, args, num_threads, num_runs=1):
     for i in range(num_runs):
         with Timer() as t:
             p = subprocess.run(c, capture_output=True, text=True, env=my_env)
-        print(p.stdout)
+        
         if(p.returncode):
+            print(p.stderr)
             return None
         timings.append(t.elapsed)
     
