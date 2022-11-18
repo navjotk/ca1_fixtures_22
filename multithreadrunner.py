@@ -34,7 +34,7 @@ def run_executable(executable, args, num_threads, num_runs=1):
     
     return min(timings)
 
-def get_results_row(all_data, identifier, precision=4):
+def get_results_row(all_data, identifier, precision=3):
     row = {'id': identifier}
     efficiencies = []
     print(all_data)
