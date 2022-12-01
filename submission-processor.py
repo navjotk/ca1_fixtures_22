@@ -39,8 +39,8 @@ def submit_job_for_run(exe, num_threads, identifier, artifacts_path, basedir):
     command_to_run += ["--executable", "%s,%s" % (exe["full_path"], ",".join(args))]
 
     command_to_run = " ".join(command_to_run)
-
-    return submit_slurm_job([command_to_run], "slurm_template.tpl", cwd=basedir,
+    slurm_template = os.path.join(artifacts_path, "slurm_template.tpl")
+    return submit_slurm_job([command_to_run], slurm_template, cwd=basedir,
                             time_limit=60, num_cores=num_threads)
 
 @click.command()
