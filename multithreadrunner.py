@@ -1,39 +1,12 @@
 import click
-import shlex
-import subprocess
 import portalocker
 import csv
 import os
 import sys
-from contexttimer import Timer
 import portalocker
 
-
-def run_executable(executable, args, num_threads, num_runs=1):
-    command = executable
-    
-    if args is not None:
-        command += " " + (" ").join(list(args))
-
-    print("Command: %s (%d threads)" % (command, num_threads))
-
-    c = shlex.split(command)
-    my_env = os.environ.copy()
-    my_env['OMP_NUM_THREADS'] = str(num_threads)
-    my_env['KMP_AFFINITY'] = 'scatter'
-    
-    
-    timings = []
-    for i in range(num_runs):
-        with Timer() as t:
-            p = subprocess.run(c, capture_output=True, text=True, env=my_env)
-        
-        if(p.returncode):
-            print(p.stderr)
-            return None
-        timings.append(t.elapsed)
-    
-    return min(timings)
+from writer import write_results
+from executor import run_executable
 
 def get_results_row(all_data, identifier, precision=3):
     row = {'id': identifier}
@@ -53,29 +26,6 @@ def get_results_row(all_data, identifier, precision=3):
     print(efficiencies)
     row['avg_par_eff'] = round(sum(efficiencies)/len(efficiencies), precision)
     return row
-
-def write_results(all_data, identifier, results_file):
-    lock = portalocker.Lock(results_file)
-
-    existing_results = []
-    with lock:
-        if os.path.exists(results_file):
-            with open(results_file, 'r') as ifile:
-                reader = csv.DictReader(ifile)
-                existing_results = list(reader)
-        
-        existing_results = [x for x in existing_results if x['id']!=identifier]
-
-        newrow = get_results_row(all_data, identifier)
-        
-        existing_results.append(newrow)
-
-        with open(results_file, mode="w") as ofile:
-                writer = csv.DictWriter(ofile, fieldnames=newrow.keys())
-                writer.writeheader()
-                for row in existing_results:
-                    writer.writerow(row)
-
 
 
 @click.command()
@@ -105,15 +55,19 @@ def run(basedir, max_threads, executable, identifier, results_file):
 
         e_full_path = "%s/%s" % (basedir, e)
         runtimes = []
-        for c in thread_nums:
-            runtime = run_executable(e_full_path, args, c)
-            if runtime is None:
-                print("Provided command is erroring out. Timings are meaningless. Exiting...")
-                sys.exit(-1)
-            runtimes.append((c, runtime))
+        try:
+            for c in thread_nums:
+                runtime = run_executable(e_full_path, args, c)
+                if runtime is None:
+                    print("Provided command is erroring out. Timings are meaningless. Moving on...")
+                    raise Exception("One executable errors. Maybe another one works")
+                runtimes.append((c, runtime))
+        except Exception:
+            continue
         all_data.append((e, runtimes))
     
-    write_results(all_data, identifier, results_file)
+    results_to_write = get_results_row(all_data, identifier)
+    write_results(results_to_write, lambda x: return  x['id']==identifier, results_file)
 
 
 if __name__=="__main__":

@@ -4,7 +4,6 @@ import csv
 import os
 import shutil
 import shlex
-from time import time
 import subprocess
 from mako.template import Template
 import portalocker
@@ -19,7 +18,7 @@ def read_results(results_file):
 
 
 def run_command(command, cwd=None, shell=False):
-    print("Executing command `%s`"%command)
+    print("Executing command `%s`" % command)
     c = shlex.split(command)
     p = subprocess.Popen(c, cwd=cwd, shell=shell)
     return p.wait()
