@@ -35,7 +35,7 @@ def submit_slurm_job(commands, template_file, num_cores=1,
 
 
 def call_slurm(slurm_file, context_dir):
-    p = run_command("sbatch --nice %s" % slurm_file, cwd=context_dir)
+    p = run_command("sbatch --nice \"%s\"" % slurm_file, cwd=context_dir)
     output = p.stdout.decode('utf-8')
     print(output)
     parts_of_output = output.split(" ")
